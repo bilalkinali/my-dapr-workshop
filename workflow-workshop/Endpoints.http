@@ -1,0 +1,108 @@
+### Variables
+@pizzaOrderUrl = http://localhost:8001
+@pizzaStorefrontUrl = http://localhost:8002
+@pizzaKitchenUrl = http://localhost:8003
+@pizzaDeliveryUrl = http://localhost:8004
+@pizzaWorkflowUrl = http://localhost:8005
+
+### Direct Pizza Order Endpoint (for testing)
+POST {{pizzaOrderUrl}}/order
+Content-Type: application/json
+
+{
+    "orderId": "123",
+    "pizzaType": "pepperoni",
+    "size": "large",
+    "customer": {
+        "name": "John Doe",
+        "address": "123 Main St",
+        "phone": "555-0123"
+    }
+}
+
+### Get order status (from pizza-order service)
+GET {{pizzaOrderUrl}}/order/123
+
+### Delete order (from pizza-order service)
+DELETE {{pizzaOrderUrl}}/order/123
+
+### Direct Pizza Store Endpoint (for testing)
+POST {{pizzaStorefrontUrl}}/storefront/order
+Content-Type: application/json
+
+{
+    "orderId": "123",
+    "pizzaType": "pepperoni",
+    "size": "large",
+    "customer": {
+        "name": "John Doe",
+        "address": "123 Main St",
+        "phone": "555-0123"
+    }
+}
+
+### Start a new pizza order workflow
+POST http://localhost:8005/workflow/start-order
+Content-Type: application/json
+
+{
+    "orderId": "123",
+    "pizzaType": "pepperoni",
+    "size": "large",
+    "customer": {
+        "name": "John Doe",
+        "address": "123 Main St",
+        "phone": "555-0123"
+    }
+}
+
+### Validate pizza (approve)
+POST {{pizzaWorkflowUrl}}/workflow/validate-pizza
+Content-Type: application/json
+
+{
+    "orderId": "123",
+    "approved": true
+}
+
+### Validate pizza (reject)
+POST {{pizzaWorkflowUrl}}/workflow/validate-pizza
+Content-Type: application/json
+
+{
+    "orderId": "123",
+    "approved": false
+}
+
+### Get workflow status
+POST {{pizzaWorkflowUrl}}/workflow/get-status
+Content-Type: application/json
+
+{
+    "orderId": "123"
+}
+
+
+### Pause workflow 
+POST {{pizzaWorkflowUrl}}/workflow/pause-order
+Content-Type: application/json
+
+{
+    "orderId": "123"
+}
+
+### Resume workflow 
+POST {{pizzaWorkflowUrl}}/workflow/resume-order
+Content-Type: application/json
+
+{
+    "orderId": "123"
+}
+
+### Terminate workflow 
+POST {{pizzaWorkflowUrl}}/workflow/cancel-order
+Content-Type: application/json
+
+{
+    "orderId": "123"
+}
