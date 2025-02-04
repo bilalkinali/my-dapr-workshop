@@ -21,10 +21,11 @@ public class CookingActivity : WorkflowActivity<Order, Order>
         {
             _logger.LogInformation("Starting cooking process for order {OrderId}", order.OrderId);
 
-            var response = await _daprClient.InvokeMethodAsync<Order, Order>(HttpMethod.Post,
-            "pizza-kitchen",
-            "cook",
-            order);
+            var response = await _daprClient.InvokeMethodAsync<Order, Order>(
+                HttpMethod.Post,
+                "pizza-kitchen",
+                "cook",
+                order);
 
             _logger.LogInformation("Order {OrderId} cooked with status {Status}", order.OrderId, response.Status);
 
