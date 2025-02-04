@@ -13,6 +13,9 @@ public class StorefrontService : IStorefrontService
     private readonly DaprClient _daprClient;
     private readonly ILogger<StorefrontService> _logger;
 
+    private const string PUBSUB_NAME = "pizzapubsub";
+    private const string TOPIC_NAME = "orders";
+
     public StorefrontService(DaprClient daprClient, ILogger<StorefrontService> logger)
     {
         _daprClient = daprClient;
@@ -37,6 +40,7 @@ public class StorefrontService : IStorefrontService
                 order.Status = status;
                 _logger.LogInformation("Order {OrderId} - {Status}", order.OrderId, status);
 
+                await _daprClient.PublishEventAsync(PUBSUB_NAME, TOPIC_NAME, order);
                 await Task.Delay(TimeSpan.FromSeconds(duration));
             }
 
@@ -69,6 +73,8 @@ public class StorefrontService : IStorefrontService
             _logger.LogError(ex, "Error processing order {OrderId}", order.OrderId);
             order.Status = "failed";
             order.Error = ex.Message;
+
+            await _daprClient.PublishEventAsync(PUBSUB_NAME, TOPIC_NAME, order);
             return order;
         }
     }
