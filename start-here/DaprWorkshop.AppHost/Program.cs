@@ -15,19 +15,19 @@ builder.AddProject<PizzaOrder>("pizzaorderservice")
     .WithReference(statestore)
     .WithReference(pubsubComponent);
 
-builder.AddProject<PizzaStorefront>("pizzastorefrontservice")
-    .WithDaprSidecar(new DaprSidecarOptions
-    {
-        AppId = "pizza-storefront",
-        DaprHttpPort = 3502
-    })
-    .WithReference(pubsubComponent);
-
 builder.AddProject<PizzaKitchen>("pizzakitchenservice")
     .WithDaprSidecar(new DaprSidecarOptions
     {
         AppId = "pizza-kitchen",
         DaprHttpPort = 3503
+    })
+    .WithReference(pubsubComponent);
+
+builder.AddProject<PizzaStorefront>("pizzastorefrontservice")
+    .WithDaprSidecar(new DaprSidecarOptions
+    {
+        AppId = "pizza-storefront",
+        DaprHttpPort = 3502
     })
     .WithReference(pubsubComponent);
 
