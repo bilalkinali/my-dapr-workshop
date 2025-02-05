@@ -18,7 +18,7 @@ public class PizzaOrderingWorkflow : Workflow<Order, Order>
 
                 if (orderResult.Status != "confirmed")
                 {
-                    throw new Exception($"Order failed: {orderResult.Error ?? "Unknown error"}";)
+                    throw new Exception($"Order failed: {orderResult.Error ?? "Unknown error"}");
                 }
 
             // Step 2: Cook the pizza
